@@ -12,7 +12,7 @@ Part of my journey learning to create web apps. This part of the [The Odin Proje
 
 ### To-do:
 
-- [ ] Build the UI;
+- [x] Build the UI;
 - [ ] Store the gameboard as an array inside of a Gameboard object. Players are also stored in objects. Use a object to control the flow of the game itself;
 - [ ] Set the HTML and write a JavaScript function that will render the contents of the gameboard array to the webpage (for now use just an array manually filled with "X"s and "O"s);
 - [ ] Build the functions that allow players to add marks to a specific spot on the board, and then tie it to the DOM, letting players click on the gameboard to place their marker. Don’t forget the logic that keeps players from playing in spots that are already taken!
