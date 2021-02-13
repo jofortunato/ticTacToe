@@ -1,0 +1,86 @@
+:root {
+  --white: #fefefe;
+  --grey: #f3f3f3;
+  --black: #4a4a4a;
+  --green: #578d58;
+  --orange: #f18f01;
+}
+
+body {
+  background-color: var(--white);
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+}
+
+#playground {
+  background-color: var(--grey);
+  margin: 100px auto;
+
+  width: 260px;
+  padding: 40px;
+
+  border-radius: 12px;
+  box-shadow: 4px 4px 12px 1px rgba(74, 74, 74, 0.4),
+    -4px -4px 12px 1px var(--white);
+}
+
+.play-container {
+  width: 80px;
+  height: 80px;
+  background-color: var(--grey);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#playground > div {
+  background-color: var(--black);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  display: grid;
+  grid-gap: 10px;
+}
+
+.play-field {
+  width: 80%;
+  height: 80%;
+}
+
+.play-field:hover {
+  border-radius: 50%;
+  box-shadow: 4px 4px 8px 1px rgba(74, 74, 74, 0.4),
+    -4px -4px 8px 1px var(--white);
+}
+
+.player-1 {
+  text-align: center;
+  color: var(--green);
+  position: relative;
+}
+
+.player-1::after {
+  content: "close";
+  font-size: 48px;
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.player-2 {
+  text-align: center;
+  vertical-align: middle;
+  color: var(--orange);
+  position: relative;
+}
+
+.player-2::after {
+  content: "panorama_fish_eye";
+  font-size: 48px;
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
