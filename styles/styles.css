@@ -85,6 +85,52 @@ body {
   transform: translate(-50%, -50%);
 }
 
+#btns-container {
+  margin: 0 auto;
+  width: 256px;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#btns-container > button {
+  width: 100px;
+  padding: 8px;
+  border-radius: 4px;
+  appearance: none;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#back {
+  border: 4px solid var(--orange);
+}
+
+#replay {
+  border: 4px solid var(--green);
+}
+
+#btns-container > button:focus {
+  outline: none;
+  box-shadow: 4px 4px 8px 1px rgba(74, 74, 74, 0.4), -4px -4px 8px 1px white;
+}
+
+#btns-container > button:hover {
+  cursor: pointer;
+  box-shadow: 4px 4px 8px 1px rgba(74, 74, 74, 0.4),
+    -4px -4px 8px 1px var(--white);
+}
+
+#replay:hover {
+  background-color: var(--green);
+  color: var(--white);
+}
+
+#back:hover {
+  background-color: var(--orange);
+  color: var(--white);
+}
+
 @media screen and (max-width: 450px) {
   #playground {
     width: 188px;
@@ -107,5 +153,14 @@ body {
 
   .player-2::after {
     font-size: 36px;
+  }
+
+  #btns-container {
+    width: 188px;
+    padding: 0 20px;
+  }
+  #btns-container > button {
+    width: 80px;
+    font-size: 14px;
   }
 }
