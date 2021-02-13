@@ -16,7 +16,7 @@ body {
   background-color: var(--grey);
   margin: 100px auto;
 
-  width: 260px;
+  width: 256px;
   padding: 40px;
 
   border-radius: 12px;
@@ -38,7 +38,7 @@ body {
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   display: grid;
-  grid-gap: 10px;
+  grid-gap: 8px 8px;
 }
 
 .play-field {
@@ -83,4 +83,29 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+@media screen and (max-width: 450px) {
+  #playground {
+    width: 188px;
+    margin: 80px auto;
+    padding: 20px;
+  }
+
+  #playground > div {
+    grid-gap: 6px 6px;
+  }
+
+  .play-container {
+    width: 60px;
+    height: 60px;
+  }
+
+  .player-1::after {
+    font-size: 36px;
+  }
+
+  .player-2::after {
+    font-size: 36px;
+  }
 }
