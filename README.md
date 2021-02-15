@@ -14,7 +14,7 @@ Part of my journey learning to create web apps. This part of the [The Odin Proje
 
 - [x] Build the UI;
 - [x] Store the gameboard as an array inside of a Gameboard object. Players are also stored in objects. Use a object to control the flow of the game itself;
-- [ ] Set the HTML and write a JavaScript function that will render the contents of the gameboard array to the webpage (for now use just an array manually filled with "X"s and "O"s);
+- [x] Set the HTML and write a JavaScript function that will render the contents of the gameboard array to the webpage (for now use just an array manually filled with "X"s and "O"s);
 - [ ] Build the functions that allow players to add marks to a specific spot on the board, and then tie it to the DOM, letting players click on the gameboard to place their marker. Don’t forget the logic that keeps players from playing in spots that are already taken!
 - [ ] Build the logic that checks for when the game is over! Should check for 3-in-a-row and a tie;
 - [ ] Clean up the interface to allow players to put in their names, include a button to start/restart the game and add a display element that congratulates the winning player;
