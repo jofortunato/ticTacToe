@@ -23,7 +23,7 @@ const gameBoard = (() => {
 const game = (() => {
     let _turn = 1;
     let _currentPlayer = null;
-    let winner = null;
+    let _winner = null;
     let _player1 = null;
     let _player2 = null;
 
@@ -37,15 +37,15 @@ const game = (() => {
 
     const getCurrentPlayer = () => _currentPlayer;
 
-    const getWinner = () => winner;
+    const getWinner = () => _winner;
 
     const playTurn = (move) => {
-        if (winner === null) {
+        if (_winner === null) {
             gameBoard.addPlay(_currentPlayer, move);
             _turn += 1;
             
             if (checkWin()) {
-                winner=_currentPlayer;
+                _winner=_currentPlayer;
                 _currentPlayer.addWin();
                 /*uiController.showWinner;*/
                 alert(`Winner is ${_currentPlayer.name}.`);
@@ -104,10 +104,9 @@ const game = (() => {
 
     const restartGame = () => {
         _turn = 0;
-        _currentPlayer = null;
-        winner = null;
+        _currentPlayer = _player1;
+        _winner = null;
         gameBoard.resetBoard();
-        uiController.loadGameBoard();
     }
 
     return {getWinner, getCurrentPlayer, createPlayers, setCurrentPlayer, playTurn, checkWin, restartGame}
@@ -129,21 +128,23 @@ const uiController = (() => {
 
         for (let i=0; i<3; ++i) {
             for (let j=0; j<3; ++j) {
-                if (board[i][j] !== null) {
-                    cellIdentifier = `pf-${i}${j}`
+                cellIdentifier = `pf-${i}${j}`;
+                let cell = document.getElementById(cellIdentifier);
 
-                    if (board[i][j] === "O") {
-                        let cell = document.getElementById(cellIdentifier);
-                        cell.classList.add("circle");
-                    }
-                    else if (board[i][j] === "X") {
-                        let cell = document.getElementById(cellIdentifier);
-                        cell.classList.add("cross");
-                    }
+                if (board[i][j] === "O") {
+                    cell.classList.add("circle");
                 }
-
+                else if (board[i][j] === "X") {
+                    cell.classList.add("cross");
+                }
+                else {
+                    cell.classList.remove("cross");
+                    cell.classList.remove("circle");
+                }
             }
+
         }
+
     }
 
     const addEventListenerToPlayground = () => {
@@ -173,12 +174,22 @@ const uiController = (() => {
                     game.playTurn(position);
                 }
             }
-        })
+        });
+    }
+
+    const addEventListenerToRestart = () => {
+        let replayBtn = document.getElementById("replay");
+
+        replayBtn.addEventListener("click", () => {
+            game.restartGame();
+            loadGameBoard();
+        });
     }
 
     game.createPlayers();
     loadGameBoard();
     addEventListenerToPlayground();
+    addEventListenerToRestart();
 
     return {loadGameBoard}
 })();
