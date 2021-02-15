@@ -21,7 +21,7 @@ const gameBoard = (() => {
 })();
 
 const game = (() => {
-    let _turn = 0;
+    let _turn = 1;
     let _currentPlayer = null;
     let winner = null;
 
@@ -43,6 +43,17 @@ const game = (() => {
             _currentPlayer.addWin();
             /*uiController.showWinner;*/
             console.log(`Winner is ${_currentPlayer.name}.`);
+        }
+        else if (_turn > 9) {
+            console.log("It's a Tie!")
+        }
+        else {
+            if (_currentPlayer === player1) {
+                _currentPlayer = player2;
+            }
+            else {
+                _currentPlayer = player1;
+            }
         }
 
         gameBoard.showBoard();
@@ -143,6 +154,7 @@ const uiController = (() => {
         })
     }
 
+    game.createPlayers();
     loadGameBoard();
     addEventListenerToPlayground();
 
