@@ -119,6 +119,9 @@ const playerFactory = (name, marker, isAi) => {
 };
 
 const uiController = (() => {
+    let replayBtn = document.getElementById("replay");
+    let playground = document.getElementById("playground");
+    let infoPanel = document.getElementById("info-panel");
     
     const loadGameBoard = () => {
         let board = gameBoard.getBoard();
@@ -146,8 +149,6 @@ const uiController = (() => {
     }
 
     const addEventListenerToPlayground = () => {
-        let playground = document.getElementById("playground");
-
         playground.addEventListener("click", e => {
             if (e.target.classList.contains("play-field") && game.getWinner() === null) {
                 if (!(e.target.classList.contains("cross") || e.target.classList.contains("circle"))) {
@@ -170,22 +171,26 @@ const uiController = (() => {
                     let position = {row: parseInt(row), column: parseInt(column)};
 
                     game.playTurn(position);
+                    showPlayerTurn(game.getCurrentPlayer().name);
                 }
             }
         });
     }
 
     const addEventListenerToRestart = () => {
-        let replayBtn = document.getElementById("replay");
-
         replayBtn.addEventListener("click", () => {
             game.restartGame();
             loadGameBoard();
         });
     }
 
+    const showPlayerTurn = (playerName) => {
+        infoPanel.textContent = `${playerName} turn.`
+    }
+
     game.createPlayers();
     loadGameBoard();
+    showPlayerTurn(game.getCurrentPlayer().name);
     addEventListenerToPlayground();
     addEventListenerToRestart();
 
