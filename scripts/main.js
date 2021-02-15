@@ -61,8 +61,6 @@ const game = (() => {
                     _currentPlayer = _player1;
                 }
             }
-
-            gameBoard.showBoard();
         }
     };
 
