@@ -170,3 +170,18 @@ body {
     font-size: 14px;
   }
 }
+
+.game-over {
+  opacity: 0.3;
+  animation-name: gameOver;
+  animation-duration: 1s;
+}
+
+@keyframes gameOver {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.3;
+  }
+}

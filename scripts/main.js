@@ -26,6 +26,7 @@ const game = (() => {
     let _winner = null;
     let _player1 = null;
     let _player2 = null;
+    let _isTie = false;
 
     const createPlayers = () => {
         _player1 = playerFactory("Player 1", "X", false);
@@ -39,6 +40,8 @@ const game = (() => {
 
     const getWinner = () => _winner;
 
+    const isTie = () => _isTie;
+
     const playTurn = (move) => {
         if (_winner === null) {
             gameBoard.addPlay(_currentPlayer, move);
@@ -47,11 +50,9 @@ const game = (() => {
             if (checkWin()) {
                 _winner=_currentPlayer;
                 _currentPlayer.addWin();
-                /*uiController.showWinner;*/
-                alert(`Winner is ${_currentPlayer.name}.`);
             }
             else if (_turn > 9) {
-                alert("It's a Tie!")
+                _isTie = true;
             }
             else {
                 if (_currentPlayer === _player1) {
@@ -101,13 +102,14 @@ const game = (() => {
     }
 
     const restartGame = () => {
-        _turn = 0;
+        _turn = 1;
         _currentPlayer = _player1;
         _winner = null;
+        _isTie = false;
         gameBoard.resetBoard();
     }
 
-    return {getWinner, getCurrentPlayer, createPlayers, setCurrentPlayer, playTurn, checkWin, restartGame}
+    return {isTie, getWinner, getCurrentPlayer, createPlayers, setCurrentPlayer, playTurn, checkWin, restartGame}
 })();
 
 const playerFactory = (name, marker, isAi) => {
@@ -172,6 +174,15 @@ const uiController = (() => {
 
                     game.playTurn(position);
                     showPlayerTurn(game.getCurrentPlayer().name);
+
+                    if (game.getWinner() !== null) {
+                        showPlayerWin(game.getWinner().name);
+                        playground.classList.add("game-over");
+                    }
+                    else if (game.isTie() === true) {
+                        showTie();
+                        playground.classList.add("game-over");
+                    }
                 }
             }
         });
@@ -181,11 +192,21 @@ const uiController = (() => {
         replayBtn.addEventListener("click", () => {
             game.restartGame();
             loadGameBoard();
+            showPlayerTurn(game.getCurrentPlayer().name);
+            playground.classList.remove("game-over");
         });
     }
 
     const showPlayerTurn = (playerName) => {
         infoPanel.textContent = `${playerName} turn.`
+    }
+
+    const showPlayerWin = (playerName) => {
+        infoPanel.textContent = `Winner is ${playerName}!`
+    }
+
+    const showTie = () => {
+        infoPanel.textContent = `It's a Tie!`
     }
 
     game.createPlayers();
