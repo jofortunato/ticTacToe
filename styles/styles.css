@@ -14,7 +14,7 @@ body {
 
 #playground {
   background-color: var(--grey);
-  margin: 100px auto;
+  margin: 80px auto 40px auto;
 
   width: 256px;
   padding: 40px;
@@ -131,10 +131,16 @@ body {
   color: var(--white);
 }
 
+#info-panel {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 16px;
+  color: var(--black);
+}
+
 @media screen and (max-width: 450px) {
   #playground {
     width: 188px;
-    margin: 80px auto;
     padding: 20px;
   }
 
