@@ -25,6 +25,13 @@ const game = (() => {
     let _currentPlayer = null;
     let winner = null;
 
+    const createPlayers = () => {
+        let player1 = playerFactory("Player 1", "cross", false);
+        let player2 = playerFactory("Player 2", "circle", false)
+    }
+
+    _currentPlayer = player1;
+
     const setCurrentPlayer = (player) => {_currentPlayer = player};
 
     const playTurn = (move) => {
@@ -85,10 +92,10 @@ const game = (() => {
         uiController.loadGameBoard();
     }
 
-    return {winner, setCurrentPlayer, playTurn, checkWin, restartGame}
+    return {winner, createPlayers, setCurrentPlayer, playTurn, checkWin, restartGame}
 })();
 
-const player = (name, marker, isAi) => {
+const playerFactory = (name, marker, isAi) => {
     let _numberWins = 0;
     const addWin = () => {_numberWins += 1};
     const getNumberWins = () =>{return _numberWins};
