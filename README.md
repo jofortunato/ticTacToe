@@ -15,9 +15,10 @@ Part of my journey learning to create web apps. This part of the [The Odin Proje
 - [x] Build the UI;
 - [x] Store the gameboard as an array inside of a Gameboard object. Players are also stored in objects. Use a object to control the flow of the game itself;
 - [x] Set the HTML and write a JavaScript function that will render the contents of the gameboard array to the webpage (for now use just an array manually filled with "X"s and "O"s);
-- [ ] Build the functions that allow players to add marks to a specific spot on the board, and then tie it to the DOM, letting players click on the gameboard to place their marker. Don’t forget the logic that keeps players from playing in spots that are already taken!
-- [ ] Build the logic that checks for when the game is over! Should check for 3-in-a-row and a tie;
-- [ ] Clean up the interface to allow players to put in their names, include a button to start/restart the game and add a display element that congratulates the winning player;
+- [x] Build the functions that allow players to add marks to a specific spot on the board, and then tie it to the DOM, letting players click on the gameboard to place their marker. Don’t forget the logic that keeps players from playing in spots that are already taken!
+- [x] Build the logic that checks for when the game is over! Should check for 3-in-a-row and a tie;
+- [x] Clean up the interface, include a button to start/restart the game and add a display element that congratulates the winning player;
+- [ ] Allow players to put in their names;
 - [ ] Optional - Create an AI so that a player can play against the computer! Start by just getting the computer to make a random legal move. The, make the computer smart - It is possible to create an unbeatable AI using the minimax algorithm.
 
 ## Bugs, Advices and Lessons Learned
