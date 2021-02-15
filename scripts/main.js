@@ -1,7 +1,7 @@
 const gameBoard = (() => {
-    let _board = [[null, "O", null],
-                ["O", null, "X"],
-                [null, "X", null]];
+    let _board = [[null, null, null],
+                [null, null, null],
+                [null, null, null]];
 
     const getBoard = () => {return _board};
 
@@ -24,15 +24,18 @@ const game = (() => {
     let _turn = 1;
     let _currentPlayer = null;
     let winner = null;
+    let player1 = null;
+    let player2 = null;
 
     const createPlayers = () => {
-        let player1 = playerFactory("Player 1", "cross", false);
-        let player2 = playerFactory("Player 2", "circle", false)
+        player1 = playerFactory("Player 1", "X", false);
+        player2 = playerFactory("Player 2", "O", false);
+        _currentPlayer = player1;
     }
 
-    _currentPlayer = player1;
-
     const setCurrentPlayer = (player) => {_currentPlayer = player};
+
+    const getCurrentPlayer = () => {return _currentPlayer};
 
     const playTurn = (move) => {
         gameBoard.addPlay(_currentPlayer, move);
@@ -42,10 +45,10 @@ const game = (() => {
             winner=_currentPlayer;
             _currentPlayer.addWin();
             /*uiController.showWinner;*/
-            console.log(`Winner is ${_currentPlayer.name}.`);
+            alert(`Winner is ${_currentPlayer.name}.`);
         }
         else if (_turn > 9) {
-            console.log("It's a Tie!")
+            alert("It's a Tie!")
         }
         else {
             if (_currentPlayer === player1) {
@@ -103,7 +106,7 @@ const game = (() => {
         uiController.loadGameBoard();
     }
 
-    return {winner, createPlayers, setCurrentPlayer, playTurn, checkWin, restartGame}
+    return {player1, player2, winner, getCurrentPlayer, createPlayers, setCurrentPlayer, playTurn, checkWin, restartGame}
 })();
 
 const playerFactory = (name, marker, isAi) => {
@@ -148,7 +151,24 @@ const uiController = (() => {
                     console.log("Occupied!");
                 }
                 else {
-                    console.log("Is empty!");
+                    let currentPlayer = game.getCurrentPlayer();
+
+                    let markClass
+                    if (currentPlayer.marker === "X") {
+                        markClass = "cross"
+                    }
+                    else {
+                        markClass = "circle"
+                    }
+
+                    e.target.classList.add(markClass);
+
+                    let cellIdentifier = e.target.id;
+                    let row = cellIdentifier.slice(-2,-1);
+                    let column = cellIdentifier.slice(-1);
+                    let position = {row: parseInt(row), column: parseInt(column)};
+
+                    game.playTurn(position);
                 }
             }
         })
