@@ -1,7 +1,7 @@
 const gameBoard = (() => {
-    let _board = [[null, null, null],
-                [null, null, null],
-                [null, null, null]];
+    let _board = [[null, "O", null],
+                ["O", null, "X"],
+                [null, "X", null]];
 
     const getBoard = () => {return _board};
 
@@ -82,7 +82,7 @@ const game = (() => {
         _currentPlayer = null;
         winner = null;
         gameBoard.resetBoard();
-        /*uiController.load;*/
+        uiController.loadGameBoard();
     }
 
     return {winner, setCurrentPlayer, playTurn, checkWin, restartGame}
@@ -121,7 +121,23 @@ const uiController = (() => {
         }
     }
 
+    const addEventListenerToPlayground = () => {
+        let playground = document.getElementById("playground");
+
+        playground.addEventListener("click", e => {
+            if (e.target.classList.contains("play-field")) {
+                if (e.target.classList.contains("cross") || e.target.classList.contains("circle")) {
+                    console.log("Occupied!");
+                }
+                else {
+                    console.log("Is empty!");
+                }
+            }
+        })
+    }
+
     loadGameBoard();
+    addEventListenerToPlayground();
 
     return {loadGameBoard}
 })();
