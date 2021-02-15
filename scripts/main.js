@@ -24,42 +24,46 @@ const game = (() => {
     let _turn = 1;
     let _currentPlayer = null;
     let winner = null;
-    let player1 = null;
-    let player2 = null;
+    let _player1 = null;
+    let _player2 = null;
 
     const createPlayers = () => {
-        player1 = playerFactory("Player 1", "X", false);
-        player2 = playerFactory("Player 2", "O", false);
-        _currentPlayer = player1;
+        _player1 = playerFactory("Player 1", "X", false);
+        _player2 = playerFactory("Player 2", "O", false);
+        _currentPlayer = _player1;
     }
 
     const setCurrentPlayer = (player) => {_currentPlayer = player};
 
-    const getCurrentPlayer = () => {return _currentPlayer};
+    const getCurrentPlayer = () => _currentPlayer;
+
+    const getWinner = () => winner;
 
     const playTurn = (move) => {
-        gameBoard.addPlay(_currentPlayer, move);
-        _turn += 1;
-        
-        if (checkWin()) {
-            winner=_currentPlayer;
-            _currentPlayer.addWin();
-            /*uiController.showWinner;*/
-            alert(`Winner is ${_currentPlayer.name}.`);
-        }
-        else if (_turn > 9) {
-            alert("It's a Tie!")
-        }
-        else {
-            if (_currentPlayer === player1) {
-                _currentPlayer = player2;
+        if (winner === null) {
+            gameBoard.addPlay(_currentPlayer, move);
+            _turn += 1;
+            
+            if (checkWin()) {
+                winner=_currentPlayer;
+                _currentPlayer.addWin();
+                /*uiController.showWinner;*/
+                alert(`Winner is ${_currentPlayer.name}.`);
+            }
+            else if (_turn > 9) {
+                alert("It's a Tie!")
             }
             else {
-                _currentPlayer = player1;
+                if (_currentPlayer === _player1) {
+                    _currentPlayer = _player2;
+                }
+                else {
+                    _currentPlayer = _player1;
+                }
             }
-        }
 
-        gameBoard.showBoard();
+            gameBoard.showBoard();
+        }
     };
 
     const checkWin = () =>{
@@ -106,7 +110,7 @@ const game = (() => {
         uiController.loadGameBoard();
     }
 
-    return {player1, player2, winner, getCurrentPlayer, createPlayers, setCurrentPlayer, playTurn, checkWin, restartGame}
+    return {getWinner, getCurrentPlayer, createPlayers, setCurrentPlayer, playTurn, checkWin, restartGame}
 })();
 
 const playerFactory = (name, marker, isAi) => {
@@ -146,11 +150,9 @@ const uiController = (() => {
         let playground = document.getElementById("playground");
 
         playground.addEventListener("click", e => {
-            if (e.target.classList.contains("play-field")) {
-                if (e.target.classList.contains("cross") || e.target.classList.contains("circle")) {
-                    console.log("Occupied!");
-                }
-                else {
+            if (e.target.classList.contains("play-field") && game.getWinner() === null) {
+                if (!(e.target.classList.contains("cross") || e.target.classList.contains("circle"))) {
+
                     let currentPlayer = game.getCurrentPlayer();
 
                     let markClass
