@@ -95,3 +95,33 @@ const player = (name, marker, isAi) => {
 
     return {name, marker, isAi, getNumberWins, addWin}
 };
+
+const uiController = (() => {
+    
+    const loadGameBoard = () => {
+        let board = gameBoard.getBoard();
+        let cellIdentifier = ""
+
+        for (let i=0; i<3; ++i) {
+            for (let j=0; j<3; ++j) {
+                if (board[i][j] !== null) {
+                    cellIdentifier = `pf-${i}${j}`
+
+                    if (board[i][j] === "O") {
+                        let cell = document.getElementById(cellIdentifier);
+                        cell.classList.add("circle");
+                    }
+                    else if (board[i][j] === "X") {
+                        let cell = document.getElementById(cellIdentifier);
+                        cell.classList.add("cross");
+                    }
+                }
+
+            }
+        }
+    }
+
+    loadGameBoard();
+
+    return {loadGameBoard}
+})();

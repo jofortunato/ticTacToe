@@ -52,13 +52,13 @@ body {
     -4px -4px 8px 1px var(--white);
 }
 
-.player-1 {
+.cross {
   text-align: center;
   color: var(--green);
   position: relative;
 }
 
-.player-1::after {
+.cross::after {
   content: "close";
   font-size: 48px;
   font-weight: bold;
@@ -68,14 +68,14 @@ body {
   transform: translate(-50%, -50%);
 }
 
-.player-2 {
+.circle {
   text-align: center;
   vertical-align: middle;
   color: var(--orange);
   position: relative;
 }
 
-.player-2::after {
+.circle::after {
   content: "panorama_fish_eye";
   font-size: 48px;
   font-weight: bold;
@@ -147,11 +147,11 @@ body {
     height: 60px;
   }
 
-  .player-1::after {
+  .cross::after {
     font-size: 36px;
   }
 
-  .player-2::after {
+  .circle::after {
     font-size: 36px;
   }
 
