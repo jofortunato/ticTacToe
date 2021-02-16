@@ -28,9 +28,9 @@ const game = (() => {
     let _player2 = null;
     let _isTie = false;
 
-    const createPlayers = (isAI) => {
+    const createPlayers = (AItype) => {
         _player1 = playerFactory("Player 1", "X", false);
-        _player2 = playerFactory("Player 2", "O", isAI);
+        _player2 = playerFactory("Player 2", "O", AItype);
         _currentPlayer = _player1;
     }
 
@@ -130,12 +130,12 @@ const game = (() => {
     return {isTie, getWinner, getCurrentPlayer, createPlayers, setCurrentPlayer, playTurn, checkWin, restartGame, randomMove}
 })();
 
-const playerFactory = (name, marker, isAi) => {
+const playerFactory = (name, marker, AItype) => {
     let _numberWins = 0;
     const addWin = () => {_numberWins += 1};
     const getNumberWins = () =>{return _numberWins};
 
-    return {name, marker, isAi, getNumberWins, addWin}
+    return {name, marker, AItype, getNumberWins, addWin}
 };
 
 const uiController = (() => {
@@ -179,10 +179,8 @@ const uiController = (() => {
             if (e.target.classList.contains("play-field") && game.getWinner() === null) {
                 if (!(e.target.classList.contains("cross") || e.target.classList.contains("circle"))) {
 
-                    let currentPlayer = game.getCurrentPlayer();
-
                     let markClass
-                    if (currentPlayer.marker === "X") {
+                    if (game.getCurrentPlayer().marker === "X") {
                         markClass = "cross"
                     }
                     else {
@@ -194,9 +192,9 @@ const uiController = (() => {
                     let cellIdentifier = e.target.id;
                     let row = cellIdentifier.slice(-2,-1);
                     let column = cellIdentifier.slice(-1);
-                    let position = {row: parseInt(row), column: parseInt(column)};
+                    let move = {row: parseInt(row), column: parseInt(column)};
 
-                    game.playTurn(position);
+                    game.playTurn(move);
                     showPlayerTurn(game.getCurrentPlayer().name);
 
                     if (game.getWinner() !== null) {
@@ -206,6 +204,29 @@ const uiController = (() => {
                     else if (game.isTie() === true) {
                         showTie();
                         playground.classList.add("game-over");
+                    }
+                    if (game.getCurrentPlayer().AItype !== false) {
+                        if (game.getCurrentPlayer().AItype !== "random") {
+                            move = game.randomMove();
+                        }
+                        else {
+                            /*Call AI move generator*/
+                        }
+                        
+
+                        if (game.getCurrentPlayer().marker === "X") {
+                            markClass = "cross"
+                        }
+                        else {
+                            markClass = "circle"
+                        }
+
+                        let randomPlayCell = document.getElementById(`pf-${move.row}${move.column}`)
+                        randomPlayCell.classList.add(markClass);
+
+                        game.playTurn(move);
+                        showPlayerTurn(game.getCurrentPlayer().name);
+
                     }
                 }
             }
@@ -243,6 +264,16 @@ const uiController = (() => {
         });
     }
 
+    const addEventListenerToplayRandomBtn = () => {
+        playRandomBtn.addEventListener("click", () => {
+            menu.classList.add("display-none");
+            gameContainer.classList.remove("display-none");
+
+            game.createPlayers("random");
+            setupPlayground();            
+        });
+    }
+
     const addEventListenerToBack = () => {
         backBtn.addEventListener("click", () => {
             gameContainer.classList.add("display-none");
@@ -263,6 +294,7 @@ const uiController = (() => {
 
     
     addEventListenerToPlayHuman();
+    addEventListenerToplayRandomBtn();
 
     return {loadGameBoard}
 })();
