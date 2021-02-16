@@ -129,6 +129,7 @@ const uiController = (() => {
     let playAiBtn
     let menu = document.getElementById("menu");
     let gameContainer = document.getElementById("game");
+    let backBtn = document.getElementById("back");
     
     const loadGameBoard = () => {
         let board = gameBoard.getBoard();
@@ -218,14 +219,28 @@ const uiController = (() => {
         playHumanBtn.addEventListener("click", () => {
             menu.classList.add("display-none");
             gameContainer.classList.remove("display-none");
-            
+
             game.createPlayers();
-            loadGameBoard();
-            showPlayerTurn(game.getCurrentPlayer().name);
-            addEventListenerToPlayground();
-            addEventListenerToRestart();
-            
+            setupPlayground();            
         });
+    }
+
+    const addEventListenerToBack = () => {
+        backBtn.addEventListener("click", () => {
+            gameContainer.classList.add("display-none");
+            menu.classList.remove("display-none");
+            playground.classList.remove("game-over");
+
+            game.restartGame();
+        });
+    }
+
+    const setupPlayground = () => {
+        loadGameBoard();
+        showPlayerTurn(game.getCurrentPlayer().name);
+        addEventListenerToPlayground();
+        addEventListenerToRestart();
+        addEventListenerToBack();
     }
 
     
