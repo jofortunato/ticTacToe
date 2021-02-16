@@ -124,6 +124,11 @@ const uiController = (() => {
     let replayBtn = document.getElementById("replay");
     let playground = document.getElementById("playground");
     let infoPanel = document.getElementById("info-panel");
+    let playHumanBtn = document.getElementById("vs-human");
+    let playRandomBtn
+    let playAiBtn
+    let menu = document.getElementById("menu");
+    let gameContainer = document.getElementById("game");
     
     const loadGameBoard = () => {
         let board = gameBoard.getBoard();
@@ -209,11 +214,22 @@ const uiController = (() => {
         infoPanel.textContent = `It's a Tie!`
     }
 
-    game.createPlayers();
-    loadGameBoard();
-    showPlayerTurn(game.getCurrentPlayer().name);
-    addEventListenerToPlayground();
-    addEventListenerToRestart();
+    const addEventListenerToPlayHuman = () => {
+        playHumanBtn.addEventListener("click", () => {
+            menu.classList.add("display-none");
+            gameContainer.classList.remove("display-none");
+            
+            game.createPlayers();
+            loadGameBoard();
+            showPlayerTurn(game.getCurrentPlayer().name);
+            addEventListenerToPlayground();
+            addEventListenerToRestart();
+            
+        });
+    }
+
+    
+    addEventListenerToPlayHuman();
 
     return {loadGameBoard}
 })();
