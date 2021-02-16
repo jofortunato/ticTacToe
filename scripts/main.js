@@ -28,9 +28,9 @@ const game = (() => {
     let _player2 = null;
     let _isTie = false;
 
-    const createPlayers = () => {
-        _player1 = playerFactory("Player 1", "X", false);
-        _player2 = playerFactory("Player 2", "O", false);
+    const createPlayers = (isAI) => {
+        _player1 = playerFactory("Player 1", "X", isAI);
+        _player2 = playerFactory("Player 2", "O", isAI);
         _currentPlayer = _player1;
     }
 
@@ -64,6 +64,24 @@ const game = (() => {
             }
         }
     };
+
+    const randomMove = () => {
+        let board = gameBoard.getBoard();
+        let emptyCells = [];
+
+        for (let i=0; i<3; ++i) {
+            for (let j=0; j<3; ++j) {
+                if (board[i][j] === null) {
+                    emptyCells.push({row: i, column: j})
+                }
+            }
+        }
+
+        let move = emptyCells[Math.floor(Math.random() * (emptyCells.length ))];
+        
+
+        return move
+    }
 
     const checkWin = () =>{
         if (_turn >= 5) {
@@ -109,7 +127,7 @@ const game = (() => {
         gameBoard.resetBoard();
     }
 
-    return {isTie, getWinner, getCurrentPlayer, createPlayers, setCurrentPlayer, playTurn, checkWin, restartGame}
+    return {isTie, getWinner, getCurrentPlayer, createPlayers, setCurrentPlayer, playTurn, checkWin, restartGame, randomMove}
 })();
 
 const playerFactory = (name, marker, isAi) => {
@@ -125,7 +143,7 @@ const uiController = (() => {
     let playground = document.getElementById("playground");
     let infoPanel = document.getElementById("info-panel");
     let playHumanBtn = document.getElementById("vs-human");
-    let playRandomBtn
+    let playRandomBtn = document.getElementById("vs-random");
     let playAiBtn
     let menu = document.getElementById("menu");
     let gameContainer = document.getElementById("game");
@@ -220,7 +238,7 @@ const uiController = (() => {
             menu.classList.add("display-none");
             gameContainer.classList.remove("display-none");
 
-            game.createPlayers();
+            game.createPlayers(false);
             setupPlayground();            
         });
     }
