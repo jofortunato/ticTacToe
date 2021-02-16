@@ -29,7 +29,7 @@ const game = (() => {
     let _isTie = false;
 
     const createPlayers = (isAI) => {
-        _player1 = playerFactory("Player 1", "X", isAI);
+        _player1 = playerFactory("Player 1", "X", false);
         _player2 = playerFactory("Player 2", "O", isAI);
         _currentPlayer = _player1;
     }
