@@ -144,7 +144,7 @@ const uiController = (() => {
     let infoPanel = document.getElementById("info-panel");
     let playHumanBtn = document.getElementById("vs-human");
     let playRandomBtn = document.getElementById("vs-random");
-    let playAiBtn
+    let playAiBtn = document.getElementById("vs-ai");
     let menu = document.getElementById("menu");
     let gameContainer = document.getElementById("game");
     let backBtn = document.getElementById("back");
@@ -180,13 +180,7 @@ const uiController = (() => {
                 if (!(e.target.classList.contains("cross") || e.target.classList.contains("circle"))) {
 
                     let markClass
-                    if (game.getCurrentPlayer().marker === "X") {
-                        markClass = "cross"
-                    }
-                    else {
-                        markClass = "circle"
-                    }
-
+                    markerClass = getMarkerClass();
                     e.target.classList.add(markClass);
 
                     let cellIdentifier = e.target.id;
@@ -197,35 +191,23 @@ const uiController = (() => {
                     game.playTurn(move);
                     showPlayerTurn(game.getCurrentPlayer().name);
 
-                    if (game.getWinner() !== null) {
-                        showPlayerWin(game.getWinner().name);
-                        playground.classList.add("game-over");
-                    }
-                    else if (game.isTie() === true) {
-                        showTie();
-                        playground.classList.add("game-over");
-                    }
+                    checkEndGame();
+                    
                     if (game.getCurrentPlayer().AItype !== false) {
-                        if (game.getCurrentPlayer().AItype !== "random") {
+                        if (game.getCurrentPlayer().AItype === "random") {
                             move = game.randomMove();
                         }
                         else {
                             /*Call AI move generator*/
                         }
-                        
 
-                        if (game.getCurrentPlayer().marker === "X") {
-                            markClass = "cross"
-                        }
-                        else {
-                            markClass = "circle"
-                        }
-
+                        markerClass = getMarkerClass();
                         let randomPlayCell = document.getElementById(`pf-${move.row}${move.column}`)
                         randomPlayCell.classList.add(markClass);
 
                         game.playTurn(move);
                         showPlayerTurn(game.getCurrentPlayer().name);
+                        checkEndGame();
 
                     }
                 }
@@ -264,7 +246,7 @@ const uiController = (() => {
         });
     }
 
-    const addEventListenerToplayRandomBtn = () => {
+    const addEventListenerToPlayRandomBtn = () => {
         playRandomBtn.addEventListener("click", () => {
             menu.classList.add("display-none");
             gameContainer.classList.remove("display-none");
@@ -274,6 +256,12 @@ const uiController = (() => {
         });
     }
 
+    const addEventListenerToPlayAiBtn = () => {
+        playAiBtn.addEventListener("click", () => {
+            alert("Feature Under Development.")
+        });
+    }
+    
     const addEventListenerToBack = () => {
         backBtn.addEventListener("click", () => {
             gameContainer.classList.add("display-none");
@@ -292,9 +280,30 @@ const uiController = (() => {
         addEventListenerToBack();
     }
 
+    const checkEndGame = () => {
+        if (game.getWinner() !== null) {
+            showPlayerWin(game.getWinner().name);
+            playground.classList.add("game-over");
+        }
+        else if (game.isTie() === true) {
+            showTie();
+            playground.classList.add("game-over");
+        }
+    }
+
+    const getMarkerClass = () => {
+        if (game.getCurrentPlayer().marker === "X") {
+            return "cross"
+        }
+        else {
+            return "circle"
+        }
+    }
+
     
     addEventListenerToPlayHuman();
-    addEventListenerToplayRandomBtn();
+    addEventListenerToPlayRandomBtn();
+    addEventListenerToPlayAiBtn();
 
     return {loadGameBoard}
 })();
