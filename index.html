@@ -12,41 +12,52 @@
     <title>Tic Tac Toe</title>
   </head>
   <body>
-    <div id="playground">
-      <div>
-        <div class="play-container">
-          <div class="play-field material-icons player-1" id="pf-00"></div>
-        </div>
-        <div class="play-container">
-          <div class="play-field material-icons" id="pf-01"></div>
-        </div>
-        <div class="play-container">
-          <div class="play-field material-icons player-2" id="pf-02"></div>
-        </div>
-        <div class="play-container">
-          <div class="play-field material-icons" id="pf-10"></div>
-        </div>
-        <div class="play-container">
-          <div class="play-field material-icons" id="pf-11"></div>
-        </div>
-        <div class="play-container">
-          <div class="play-field material-icons" id="pf-12"></div>
-        </div>
-        <div class="play-container">
-          <div class="play-field material-icons" id="pf-20"></div>
-        </div>
-        <div class="play-container">
-          <div class="play-field material-icons" id="pf-21"></div>
-        </div>
-        <div class="play-container">
-          <div class="play-field material-icons" id="pf-22"></div>
-        </div>
+    <div id="menu">
+      <h1 id="tic-tac-toe">tic tac toe.</h1>
+      <div id="buttons-container">
+        <p id="choose-players">Choose the player you want to face.</p>
+        <button class="player-option" id="vs-human">vs. human</button>
+        <button class="player-option" id="vs-random">vs. random</button>
+        <button class="player-option" id="vs-ai">vs. ai</button>
       </div>
     </div>
-    <p id="info-panel"></p>
-    <div id="btns-container">
-      <button id="back">Go back</button>
-      <button id="replay">Replay</button>
+    <div id="game" class="display-none">
+      <div id="playground">
+        <div>
+          <div class="play-container">
+            <div class="play-field material-icons player-1" id="pf-00"></div>
+          </div>
+          <div class="play-container">
+            <div class="play-field material-icons" id="pf-01"></div>
+          </div>
+          <div class="play-container">
+            <div class="play-field material-icons player-2" id="pf-02"></div>
+          </div>
+          <div class="play-container">
+            <div class="play-field material-icons" id="pf-10"></div>
+          </div>
+          <div class="play-container">
+            <div class="play-field material-icons" id="pf-11"></div>
+          </div>
+          <div class="play-container">
+            <div class="play-field material-icons" id="pf-12"></div>
+          </div>
+          <div class="play-container">
+            <div class="play-field material-icons" id="pf-20"></div>
+          </div>
+          <div class="play-container">
+            <div class="play-field material-icons" id="pf-21"></div>
+          </div>
+          <div class="play-container">
+            <div class="play-field material-icons" id="pf-22"></div>
+          </div>
+        </div>
+      </div>
+      <p id="info-panel"></p>
+      <div id="btns-container">
+        <button id="back">Go back</button>
+        <button id="replay">Replay</button>
+      </div>
     </div>
   </body>
   <script src="scripts/main.js"></script>

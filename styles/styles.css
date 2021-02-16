@@ -185,3 +185,65 @@ body {
     opacity: 0.3;
   }
 }
+
+.display-none {
+  display: none;
+}
+
+#menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 80px;
+  background-color: var(--white);
+}
+
+#tic-tac-toe {
+  font-size: 46px;
+  font-weight: bold;
+  color: var(--black);
+  margin-bottom: 80px;
+  color: var(--orange);
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+}
+
+#buttons-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#choose-players {
+  font-size: 16px;
+  color: var(--black);
+  margin-bottom: 40px;
+}
+
+.player-option {
+  width: 160px;
+  padding: 8px;
+  border-radius: 4px;
+  appearance: none;
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 20px;
+  background-color: var(--grey);
+  color: var(--black);
+  border: 4px solid var(--green);
+}
+
+.player-option:focus {
+  outline: none;
+  box-shadow: 4px 4px 8px 1px rgba(74, 74, 74, 0.4), -4px -4px 8px 1px white;
+  background-color: var(--green);
+  color: var(--white);
+}
+
+.player-option:hover {
+  cursor: pointer;
+  box-shadow: 4px 4px 8px 1px rgba(74, 74, 74, 0.4),
+    -4px -4px 8px 1px var(--white);
+  background-color: var(--green);
+  color: var(--white);
+}
