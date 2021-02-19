@@ -47,11 +47,13 @@ const game = (() => {
             gameBoard.addPlay(_currentPlayer, move);
             _turn += 1;
             
-            if (checkWin()) {
+            let result = checkWin();
+            console.log(result)
+            if (result.isGameOver && result.winner !== null) {
                 _winner=_currentPlayer;
                 _currentPlayer.addWin();
             }
-            else if (_turn > 9) {
+            else if (result.isGameOver && result.winner === null) {
                 _isTie = true;
             }
             else {
@@ -84,7 +86,7 @@ const game = (() => {
     }
 
     const checkWin = () =>{
-        if (_turn >= 5) {
+        if (_turn >= 5 ) {
             let board = gameBoard.getBoard();
             let isWinningSequence = false;
             let auxDiagonalArray1 = [];
@@ -112,10 +114,18 @@ const game = (() => {
                                 hasEqualValues(auxDiagonalArray2) || 
                                 isWinningSequence;
 
-            return isWinningSequence;
+            if (isWinningSequence) {
+                return {isGameOver: true , winner: _currentPlayer}
+            }
+            else if (_turn > 9){
+                return {isGameOver: true , winner: null}
+            }
+            else {
+                return {isGameOver: false, winner: null}
+            }
         }
         else {
-            return false;
+            return {isGameOver: false, winner: null}
         }
     }
 
@@ -180,7 +190,7 @@ const uiController = (() => {
                 if (!(e.target.classList.contains("cross") || e.target.classList.contains("circle"))) {
 
                     let markClass
-                    markerClass = getMarkerClass();
+                    markClass = getMarkerClass();
                     e.target.classList.add(markClass);
 
                     let cellIdentifier = e.target.id;
