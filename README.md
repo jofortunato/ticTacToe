@@ -2,7 +2,7 @@
 
 ## Current Status:
 
-Under development.
+Development is paused - main objective was completed. Check the game [here](https://jofortunato.github.io/ticTacToe/).
 
 ## Motivation
 
