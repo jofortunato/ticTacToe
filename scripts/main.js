@@ -29,7 +29,7 @@ const game = (() => {
     let _isTie = false;
 
     const createPlayers = (AItype) => {
-        _player1 = playerFactory("Player 1", "X", false);
+        _player1 = playerFactory("Player 1", "X", "human");
         _player2 = playerFactory("Player 2", "O", AItype);
         _currentPlayer = _player1;
     }
@@ -47,8 +47,8 @@ const game = (() => {
             gameBoard.addPlay(_currentPlayer, move);
             _turn += 1;
             
-            let result = checkWin();
-            console.log(result)
+            let result = checkWin(gameBoard.getBoard(), _turn, _currentPlayer);
+
             if (result.isGameOver && result.winner !== null) {
                 _winner=_currentPlayer;
                 _currentPlayer.addWin();
@@ -85,9 +85,77 @@ const game = (() => {
         return move
     }
 
-    const checkWin = () =>{
-        if (_turn >= 5 ) {
-            let board = gameBoard.getBoard();
+    const minimax = (board, depth, currentPlayer) => {
+        let best = null
+        
+        if (currentPlayer.AItype === "ai") {
+            best = {move: null, score: -Infinity};
+        }
+        else {
+            best = {move: null, score: +Infinity};
+        }
+        
+        let nextPlayer;
+        if (currentPlayer === _player1) {
+            nextPlayer = _player2;
+        }
+        else {
+            nextPlayer = _player1;
+        }
+
+        let result = checkWin(board, depth+2, nextPlayer);
+        if (result.isGameOver === true) {
+            if (result.winner === null) {
+                return {move: null, score: 0}
+            }
+            else if (result.winner.AItype === "ai") {
+                return {move: null, score: 1}
+            }
+            else {
+                return {move: null, score: -1}
+            }
+        }
+
+        let intermediaryResult = null;
+
+        for(let i=0; i<3; ++i) {
+            for(let j=0; j<3; ++j) {
+                if (board[i][j] === null) {
+                    board[i][j] = currentPlayer.marker;
+
+                    /*if (depth === 0) {
+                        console.table(board)
+                        console.table(best)
+                    }*/
+                    
+                    intermediaryResult = minimax(board, depth+1, nextPlayer);
+
+                    board[i][j] = null;
+
+                    if (depth === 1) {
+                        console.log("here")
+                    }
+
+                    if (currentPlayer.AItype === "ai") {
+                        if (intermediaryResult.score > best.score) {
+                            best = {move: {row: i, column: j}, score: intermediaryResult.score};
+                        }
+                    }
+                    else {
+                        if (intermediaryResult.score < best.score) {
+                            best = {move: {row: i, column: j}, score: intermediaryResult.score};
+                        }
+                    }
+                }
+            }
+        }
+        
+        return best
+    }
+
+    const checkWin = (board, turn, currentPlayer) =>{
+        if (turn >= 5 ) {
+            /*let board = gameBoard.getBoard();*/
             let isWinningSequence = false;
             let auxDiagonalArray1 = [];
             let auxDiagonalArray2 = [];
@@ -115,9 +183,9 @@ const game = (() => {
                                 isWinningSequence;
 
             if (isWinningSequence) {
-                return {isGameOver: true , winner: _currentPlayer}
+                return {isGameOver: true , winner: currentPlayer}
             }
-            else if (_turn > 9){
+            else if (turn > 9){
                 return {isGameOver: true , winner: null}
             }
             else {
@@ -137,7 +205,7 @@ const game = (() => {
         gameBoard.resetBoard();
     }
 
-    return {isTie, getWinner, getCurrentPlayer, createPlayers, setCurrentPlayer, playTurn, checkWin, restartGame, randomMove}
+    return {isTie, getWinner, getCurrentPlayer, createPlayers, setCurrentPlayer, playTurn, checkWin, restartGame, randomMove, minimax}
 })();
 
 const playerFactory = (name, marker, AItype) => {
@@ -189,9 +257,9 @@ const uiController = (() => {
             if (e.target.classList.contains("play-field") && game.getWinner() === null) {
                 if (!(e.target.classList.contains("cross") || e.target.classList.contains("circle"))) {
 
-                    let markClass
-                    markClass = getMarkerClass();
-                    e.target.classList.add(markClass);
+                    let markerClass
+                    markerClass = getMarkerClass();
+                    e.target.classList.add(markerClass);
 
                     let cellIdentifier = e.target.id;
                     let row = cellIdentifier.slice(-2,-1);
@@ -202,18 +270,19 @@ const uiController = (() => {
                     showPlayerTurn(game.getCurrentPlayer().name);
 
                     checkEndGame();
-                    
-                    if (game.getCurrentPlayer().AItype !== false) {
+
+                    if (game.getCurrentPlayer().AItype !== "human") {
                         if (game.getCurrentPlayer().AItype === "random") {
                             move = game.randomMove();
                         }
                         else {
-                            /*Call AI move generator*/
+                            move = game.minimax(gameBoard.getBoard(),0,game.getCurrentPlayer()).move;
                         }
 
                         markerClass = getMarkerClass();
+                        console.log(move)
                         let randomPlayCell = document.getElementById(`pf-${move.row}${move.column}`)
-                        randomPlayCell.classList.add(markClass);
+                        randomPlayCell.classList.add(markerClass);
 
                         game.playTurn(move);
                         showPlayerTurn(game.getCurrentPlayer().name);
@@ -251,7 +320,7 @@ const uiController = (() => {
             menu.classList.add("display-none");
             gameContainer.classList.remove("display-none");
 
-            game.createPlayers(false);
+            game.createPlayers("human");
             setupPlayground();            
         });
     }
@@ -268,7 +337,12 @@ const uiController = (() => {
 
     const addEventListenerToPlayAiBtn = () => {
         playAiBtn.addEventListener("click", () => {
-            alert("Feature Under Development.")
+            alert("Feature under development.");
+            /*menu.classList.add("display-none");
+            gameContainer.classList.remove("display-none");
+
+            game.createPlayers("ai");
+            setupPlayground();*/      
         });
     }
     
